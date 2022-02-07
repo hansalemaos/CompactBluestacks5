@@ -17,6 +17,8 @@
 # BluestacksCompact5 [DOWNLOAD THE INSTALLER HERE!](https://github.com/hansalemaos/CompactBluestacks5/raw/main/CompactBluestacks5_setup.exe)
 
 
+- We all love Bluestacks since it certainly is the best emulator for Android, but unfortunately it behaves like a child with a tumor in the pituitary gland. It keeps growing and growing in size. For version 4 there was a solution provided by Bluestacks itself, but for version 5, it has not been released yet. Since I got tired of installing more than 30 instances over and over again, I made a little script which reduces the size of all installed Bluestacks 5 instances.Since there are a lot of people who do not know how to use Python, I also created an EXE file.
+
 
 ## What can you do with it?
 
