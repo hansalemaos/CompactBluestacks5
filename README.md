@@ -25,6 +25,11 @@
 ## How to install/run?
 
 - You can either download the installer (for people who do not know about programming) or the Python script and run it.
+- Start the app.
+- The app will show you all instances found
+- Be sure to make a backup of those folders! 
+- Write "ok" and press ENTER
+- I have tested it only with Nougat32 (standard Bluestacks 5 version)
 
 <img src="screenshot.png" width="500" />
 
