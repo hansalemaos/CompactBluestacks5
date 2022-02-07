@@ -8,14 +8,13 @@
 <a href=https://www.queroestudaralemao.com.br><img src="https://img.shields.io/badge/from-queroestudaralemao.com.br-darkgreen"/></a>
 <a href=#><img src="https://img.shields.io/badge/for-Windows-black"/></a>
 <a href=#><img src="https://img.shields.io/badge/nocoding-required-darkgreen"/></a>
-<a href=#><img src="https://img.shields.io/badge/Vocabulary-Trainer-black"/></a>
 <a href=#><img src="https://img.shields.io/badge/Study-Any Language-darkgreen"/></a>
 <a href=https://codeload.github.com/liangjingkanji/DrakeTyporaTheme/zip/refs/heads/master><img src="https://img.shields.io/badge/Theme-Drake-black"/></a>
 <a href=https://github.com/dmhendricks/signature-social-icons><img src="https://img.shields.io/badge/Social-Icons-darkgreen"/></a>
 </p><br>
 
 
-# BluestacksCompact5 [DOWNLOAD THE INSTALLER HERE!](https://www.dropbox.com/s/nau2d4kbxfy5ja1/Deklinator_setup.exe?dl=0)
+# BluestacksCompact5 [DOWNLOAD THE INSTALLER HERE!](https://github.com/hansalemaos/CompactBluestacks5/raw/main/CompactBluestacks5_setup.exe)
 
 
 
