@@ -6,10 +6,13 @@ from winregistry import WinRegistry
 from winreg import REG_DWORD
 from maximize_console import maximize_console
 import os
+from random import randrange
+sys.path.append(re.sub(r"[\\/][^\\/]+$", "", __file__))
 
 
 class BlueStacksCompact:
-    def __init__(self, name):
+    def __init__(self, name, withoutasking=False):
+        self.withoutasking = withoutasking
         self.drucker = Farbprinter()
         BlueStacksCompact.close_bluestacks()
         self.introduction(name)
@@ -28,22 +31,50 @@ class BlueStacksCompact:
         "VirtualTerminalLevel"=dword:00000001"""
         self.try_to_create_key = "HKEY_CURRENT_USER\Console\VirtualTerminalLevel not found! I will try to create it so that you can see colored text"
         self.bluestackspath = BlueStacksCompact.get_bluestacks_engine_path()
-        self.allbluestacksinstances = self.get_all_nougat_folders()
-        self.drucker.p_pandas_list_dict(self.allbluestacksinstances)
+        self.allbluestacksinstances = self.get_all_vdi_files()
+        self.drucker.p_pandas_list_dict(self.allbluestacksinstances, linebreak=300)
         userinput = ''
-        while userinput !='ok':
-            try:
-                userinput = input(
-                    self.drucker.f.black.brightyellow.normal(
-                        "\nThose are all Bluestacks instances that I have found!\nMake a backup now, come back, write \"OK\"  and press RETURN to compact them!\n"
+        if not self.withoutasking:
+            while userinput !='ok':
+                try:
+                    userinput = input(
+                        self.drucker.f.black.brightyellow.normal(
+                            "\nThose are all Bluestacks instances that I have found!\nMake a backup now, come back, write \"OK\"  and press RETURN to compact them!\n"
+                        )
                     )
-                )
-                userinput = str(userinput).lower().strip().strip('''"\'''')
-            except Exception as Fehler:
-                print(Fehler)
+                    userinput = str(userinput).lower().strip().strip('''"\'''')
+                except Exception as Fehler:
+                    print(Fehler)
+        elif self.withoutasking:
+            print('losgehts')
         self.dict_to_compact = {
-            k + "\\Data.vdi": k + "\\Data1.vdi" for k in self.allbluestacksinstances
+            k: re.sub('\.vdi$', str(randrange(0,1000000000)).zfill(12) + '.vdi', k)  for k in self.allbluestacksinstances
         }
+
+
+    def get_all_vdi_files(self):
+        def getListOfFiles(dirName):
+            # create a list of file and sub directories
+            # names in the given directory
+            listOfFile = os.listdir(dirName)
+            allFiles = list()
+            # Iterate over all the entries
+            for entry in listOfFile:
+                # Create full path
+                fullPath = os.path.join(dirName, entry)
+                # If entry is a directory then get the list of files in this directory
+                if os.path.isdir(fullPath):
+                    allFiles = allFiles + getListOfFiles(fullPath)
+                else:
+                    allFiles.append(fullPath)
+            return allFiles
+        listOfFile = getListOfFiles(self.bluestackspath)
+        allFiles = list()
+        for entry in listOfFile:
+            fullPath = os.path.join(self.bluestackspath, entry)
+            allFiles.append(fullPath)
+        allFiles = [x.replace('/', '\\').strip() for x in allFiles if any(re.findall(r"\.vdi$", x))]
+        return allFiles
 
     @staticmethod
     def close_bluestacks():
@@ -87,22 +118,14 @@ class BlueStacksCompact:
         )
 
     def compact_bluestacks(self):
-        def get_file_path(datei):
-            pfad = sys.path
-            pfad = [x.replace("/", "\\") + "\\" + datei for x in pfad]
-            exists = []
-            for p in pfad:
-                if os.path.exists(p):
-                    exists.append(p)
-            return list(dict.fromkeys(exists))
 
-        clonevdipath = get_file_path("CloneVDI.exe")[0]
         instancenumber = 1
         for bluestacks_old, bluestacks_new in self.dict_to_compact.items():
             try:
                 execute_command = (
-                    fr'''{clonevdipath} "{bluestacks_old}" -kc -o "{bluestacks_new}"'''
+                    fr'''CloneVDI.exe "{bluestacks_old}" -kc -o "{bluestacks_new}"'''
                 )
+
                 print(
                     self.drucker.f.black.brightmagenta.normal(
                         f"\nInstance: {instancenumber}\n"
@@ -122,15 +145,16 @@ class BlueStacksCompact:
                     ),
                     end="",
                 )
-                os.remove(bluestacks_old)
-                print(
-                    self.drucker.f.black.brightyellow.normal(
-                        f"\nRenaming {bluestacks_new}\n"
-                    ),
-                    end="",
-                )
-                os.rename(bluestacks_new, bluestacks_old)
-                instancenumber = instancenumber + 1
+                if os.path.exists(bluestacks_new):
+                    os.remove(bluestacks_old)
+                    print(
+                        self.drucker.f.black.brightyellow.normal(
+                            f"\nRenaming {bluestacks_new}\n"
+                        ),
+                        end="",
+                    )
+                    os.rename(bluestacks_new, bluestacks_old)
+                    instancenumber = instancenumber + 1
             except Exception as Fehler:
                 _ = input(
                     self.drucker.f.black.brightred.normal(
@@ -138,21 +162,16 @@ class BlueStacksCompact:
                     )
                 )
 
-        _ = input(
-            self.drucker.f.black.brightgreen.normal(
-                "\nWork done! Press any key to exit\n"
+        if not self.withoutasking:
+            _ = input(
+                self.drucker.f.black.brightgreen.normal(
+                    "\nWork done! Press any key to exit\n"
+                )
             )
-        )
+        elif self.withoutasking:
+            print("Done")
         sys.exit()
 
-    def get_all_nougat_folders(self):
-        listOfFile = os.listdir(self.bluestackspath)
-        allFiles = list()
-        for entry in listOfFile:
-            fullPath = os.path.join(self.bluestackspath, entry)
-            allFiles.append(fullPath)
-        allFiles = [x for x in allFiles if any(re.findall(r"Nougat\d\d_\d+", x))]
-        return allFiles
 
     @staticmethod
     def get_bluestacks_engine_path():
@@ -230,5 +249,13 @@ class BlueStacksCompact:
 
 if __name__ =='__main__':
     maximize_console()
-    bs = BlueStacksCompact('CompactBluestacks5')
+
+    print(f'Started with args: {" ".join(sys.argv)}')
+    if len(sys.argv) > 1:
+        if sys.argv[1] !='-ok':
+            bs = BlueStacksCompact('CompactBluestacks5')
+        elif sys.argv[1] == '-ok':
+            bs = BlueStacksCompact('CompactBluestacks5', withoutasking=True)
+    elif len(sys.argv) <=1:
+        bs = BlueStacksCompact('CompactBluestacks5')
     bs.compact_bluestacks()
