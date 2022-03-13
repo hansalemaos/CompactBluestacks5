@@ -31,6 +31,7 @@
 - Be sure to make a backup of those folders! 
 - Write "ok" and press ENTER
 - I have tested it only with Nougat32 (standard Bluestacks 5 version)
+- IMPORTANT: IF YOU EXECUTE THE PYTHON SCRIPT INSTEAD OF THE INSTALLER VERSION, MAKE SURE TO HAVE CloneVDI.exe IN YOUR PATH! IT IS INCLUDED IN THE INSTALLER VERSION!
 
 <img src="screenshot.png" width="500" />
 
