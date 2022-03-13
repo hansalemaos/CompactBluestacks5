@@ -24,7 +24,12 @@
 - Compact virtual HDDs from all your Bluestacks 5 instances to save disk space! It was included in v4, but has not been released yet for v5. Because of that, I wrote this app!
 
 ## How to install/run?
+**Version 0.2:**
+   - Compresses now all files **ending with .vdi** in the Bluestacks folder, not only **Data.vdi** 
+   - You can start the app now with the argument "-ok" to automatically execute the compression 
+   - The folder containing the app is now added to the path variable to avoid the "CloneVDI.exe not found" error
 
+**Version 0.1:**
 - You can either download the installer (for people who do not know about programming) or the Python script and run it.
 - Start the app.
 - The app will show you all instances found
